@@ -6,7 +6,22 @@ async function index(req, res) {
 }
 
 async function create(req, res) {
-
+  console.log(req.body.videoId)
+  console.log(req.body.title)
+  const newReg = Album.build({
+    videoId: req.body.videoId,
+    title: req.body.title,
+    description: req.body.description,
+    thumbUrl: req.body.thumbUrl,
+    duration: req.body.duration
+  })
+  try {
+    await newReg.save()
+    res.status(200).json({})
+  } catch (e) {
+    console.error(e)
+    res.status(422).json({error: 'No fue posible guardar el video'})
+  }
 }
 
 async function destroy(req, res) {
