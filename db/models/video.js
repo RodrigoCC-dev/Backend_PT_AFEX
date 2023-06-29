@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Video.hasMany(models.Description)
+      Video.hasMany(models.Description, {foreignKey: 'videoId'})
     }
   }
   Video.init({
