@@ -1,15 +1,16 @@
 const { Video, Description } = require('../../db/models/index')
 
 async function index(req, res) {
-  const videoList = await Video.findAll({include: [{model: Description, required: true}]})
+  const videoList = await Video.scope('dataOnly').findAll({include: [{model: Description.scope('dataOnly'), required: true}]})
   res.status(200).json(videoList)
 }
 
 async function create(req, res) {
   const newReg = Video.build({
-    videoId: req.body.videoId,
+    youtubeId: req.body.videoId,
     title: req.body.title,
-    thumbUrl: req.body.thumbUrl,
+    mediumUrl: req.body.mediumUrl,
+    stdUrl: req.body.stdUrl,
     duration: req.body.duration
   })
   try {
