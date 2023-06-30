@@ -20,6 +20,11 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'Description',
+    scopes: {
+      dataOnly: {
+        attributes: {exclude: ['videoId', 'createdAt', 'updatedAt']}
+      }
+    }
   });
   return Description;
 };

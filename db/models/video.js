@@ -17,11 +17,17 @@ module.exports = (sequelize, DataTypes) => {
   Video.init({
     youtubeId: DataTypes.STRING,
     title: DataTypes.STRING(1234),
-    thumbUrl: DataTypes.STRING,
+    mediumUrl: DataTypes.STRING,
+    stdUrl: DataTypes.STRING,
     duration: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'Video',
+    scopes: {
+      dataOnly: {
+        attributes: {exclude: ['createdAt', 'updatedAt']}
+      }
+    }
   });
   return Video;
 };

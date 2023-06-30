@@ -15,7 +15,10 @@ module.exports = {
       title: {
         type: Sequelize.STRING(1234)
       },
-      thumbUrl: {
+      mediumUrl: {
+        type: Sequelize.STRING
+      },
+      stdUrl: {
         type: Sequelize.STRING
       },
       duration: {
