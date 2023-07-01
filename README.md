@@ -101,3 +101,9 @@ Desplegar la aplicación en entorno de desarrollo:
 ```
 npm run dev
 ```
+
+## Despliegue en producción
+### Instalación directa en el servidor
+Las siguientes instrucciones de despliegue de la aplicación son las correspondientes para un servidor con distribución Ubuntu 20.04. Para otros sistemas operativos pueden haber variaciones en los comandos indiados. Se considera que ya se cuenta con la instalación de las dependencias señaladas en el apartado __Instalación__.
+
+#### Instalación en producción con la configuración por defecto
