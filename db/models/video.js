@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Album extends Model {
+  class Video extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -11,17 +11,23 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Video.hasMany(models.Description, {foreignKey: 'videoId'})
     }
   }
-  Album.init({
-    videoId: DataTypes.STRING,
-    title: DataTypes.STRING,
-    description: DataTypes.STRING(1234),
-    thumbUrl: DataTypes.STRING,
+  Video.init({
+    youtubeId: DataTypes.STRING,
+    title: DataTypes.STRING(1234),
+    mediumUrl: DataTypes.STRING,
+    stdUrl: DataTypes.STRING,
     duration: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'Album',
+    modelName: 'Video',
+    scopes: {
+      dataOnly: {
+        attributes: {exclude: ['createdAt', 'updatedAt']}
+      }
+    }
   });
-  return Album;
+  return Video;
 };
