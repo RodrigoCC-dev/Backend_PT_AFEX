@@ -188,7 +188,7 @@ NODE_ENV=production npm install
 ```
 Instalar las nuevas migraciones en la base de datos. Estas nuevas migraciones deben ser instaladas según cada nuevo archivo agregado en esta actualización (se indica a continuación un ejemplo del comando a utilizar por cada archivo):
 ```
-npx sequelize --env=production db:migrate --name 2022101406XXXX-nueva-migracion.js
+npx sequelize --env=production db:migrate --name 2023070106XXXX-nueva-migracion.js
 ```
 Reiniciar la aplicación:
 ```
@@ -199,8 +199,52 @@ npx pm2 restart server
 
 ## Diseño
 ### Modelo entidad relación
+Las entidades definidas para la base de datos, junto con las relaciones y tipos de datos configurados son las que se presentan a continuación en la siguiente imagen:
+
+![MER](https://drive.google.com/file/d/1jFAZ_SU0r4BPSSm0bEPQgj2n57qt-0e5/view?usp=sharing)
 
 ### Endpoints y estructura de datos
 #### Endpoints
+Los *endpoints* de la aplicación, junto con los verbos HTTP de cada uno de ellos y los controladores que las ejecutan son los presentados a continuación:
+
+| Endpoint    | Verbo       | Controlador             |
+|:------------|:-----------:|:-----------------------:|
+| /album      | GET         | albumController#index   |
+| /album      | POST        | albumController#create  |
+| /album/:id  | DELETE      | albumController#destroy |
 
 #### Estructura de datos
+Las estructuras de datos de los *endpoints* GET y POST anteriores se presentan a continuación según cada método del controlador:
+
+* Estructura de datos entregada por el *endpoint* asociado a __albumController#index__:
+```
+[
+  {
+    id:
+    youtubeId:
+    title:
+    mediumUrl:
+    stdUrl:
+    duration:
+    Descriptions: [
+      {
+        id:
+        partNumber:
+        description:
+      }
+    ]
+  }
+]
+```
+
+* Estructura de datos a ser enviada al *endpoint* asociado a __albumController#create__
+```
+{
+  videoId:
+  title:
+  description:
+  mediumUrl:
+  stdUrl:
+  duration:
+}
+```
