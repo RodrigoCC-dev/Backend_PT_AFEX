@@ -201,7 +201,7 @@ npx pm2 restart server
 ### Modelo entidad relación
 Las entidades definidas para la base de datos, junto con las relaciones y tipos de datos configurados son las que se presentan a continuación en la siguiente imagen:
 
-![MER](https://drive.google.com/file/d/1jFAZ_SU0r4BPSSm0bEPQgj2n57qt-0e5/view?usp=sharing)
+[![MER-AFEX-drawio-v-C.png](https://i.postimg.cc/8C68j7PM/MER-AFEX-drawio-v-C.png)](https://postimg.cc/kVqYHXSg)
 
 ### Endpoints y estructura de datos
 #### Endpoints
