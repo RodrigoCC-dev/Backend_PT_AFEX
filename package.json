@@ -7,7 +7,7 @@
     "dev": "nodemon app/server.js",
     "console-dev": "node -r esm --experimental-repl-await console",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "cross-env NODE_ENV=production pm2 ./app/server.js"
+    "server": "cross-env NODE_ENV=production pm2 start ./app/server.js"
   },
   "author": "RodrigoCC-dev",
   "license": "ISC",

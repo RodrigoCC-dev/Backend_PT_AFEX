@@ -1,34 +1,36 @@
 # Backend_PT_AFEX
 
 ## Entorno de desarrollo
-NodeJS v18.16
-npm v9.6.7
-postgresql v12
+* NodeJS v18.16
+* npm v9.6.7
+* PostgreSQL v12
+
+---
 
 ## Instalación
 La siguiente descripción de instalación se realiza considerando un sistema local con Ubuntu 20.04. Para otras distribuciones de sistemas operativos pueden haber variaciones en los comandos indicados.
 ### nvm-sh
-nvm-sh es una herramienta que permite instalar múltiples versiones de NodeJS en el sistema, por lo cual permite elegir la versión específica a utilizar. Para su instalación se debe contar con cURL instalado:
+*nvm-sh* es una herramienta que permite instalar múltiples versiones de NodeJS en el sistema, por lo cual permite elegir la versión específica a utilizar. Para su instalación se debe contar con cURL instalado:
 ```
 sudo apt update
 sudo apt install curl
 ```
-Instalar nvm-sh a través del script de instalación proporcionado en la documentación oficial:
+Instalar *nvm-sh* a través del script de instalación proporcionado en la documentación oficial:
 ```
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.3/install.sh | bash
 ```
-Ejecutar el siguiente comando para que la consola del sistema reconozca las instrucciones de nvm-sh en las siguientes sesiones de trabajo:
+Ejecutar el siguiente comando para que la consola del sistema reconozca las instrucciones de *nvm-sh* en las siguientes sesiones de trabajo:
 ```
 source ~/.bashrc
 ```
 Cerrar la sesión actual y volver a abrir la consola para continuar con la instalación.
 
 ### Node.js
-Con la ayuda de nvm-sh ya es posible instalar la versión de NodeJS requerida a través del siguiente comando:
+Con la ayuda de *nvm-sh* ya es posible instalar la versión de *NodeJS* requerida a través del siguiente comando:
 ```
 nvm install 18.16
 ```
-Verificar la versión de NodeJS instalada:
+Verificar la versión de *NodeJS* instalada:
 ```
 node --version
 ```
@@ -38,7 +40,7 @@ npm --version
 ```
 
 ### PostgreSQL
-Instalar PostgreSQL en el sistema:
+Instalar *PostgreSQL* en el sistema:
 ```
 sudo apt install postgresql postgresql-contrib libpq-dev
 ```
@@ -47,7 +49,7 @@ Cambiar a usuario postgres e ingresar a la consola de postgres:
 sudo su - postgres
 psql
 ```
-Crear un rol para el usuario actual, su base de datos por defecto y su password de acceso:
+Crear un rol para el usuario actual, con permiso de creación de bases de datos y establecer su password de acceso:
 ```
 create role 'tu_usuario' with createdb login password 'tu_password';
 ```
@@ -102,8 +104,75 @@ Desplegar la aplicación en entorno de desarrollo:
 npm run dev
 ```
 
+---
+
 ## Despliegue en producción
 ### Instalación directa en el servidor
-Las siguientes instrucciones de despliegue de la aplicación son las correspondientes para un servidor con distribución Ubuntu 20.04. Para otros sistemas operativos pueden haber variaciones en los comandos indiados. Se considera que ya se cuenta con la instalación de las dependencias señaladas en el apartado __Instalación__.
+Las siguientes instrucciones de despliegue de la aplicación son las correspondientes para un servidor con distribución Ubuntu 20.04. Para otros sistemas operativos pueden haber variaciones en los comandos indicados. Se considera que ya se cuenta con la instalación de las dependencias señaladas en el apartado __Instalación__.
 
-#### Instalación en producción con la configuración por defecto
+#### Configuración de la aplicación en producción
+Ingresar al directorio de trabajo. Para ejemplificar se utiliza la carpeta */opt* del sistema. Clonar el repositorio con permisos de superusuario:
+```
+cd /opt
+sudo git clone  https://github.com/RodrigoCC-dev/Backend_PT_AFEX.git backend_pt_afex
+```
+Cambiar los permisos de acceso a la carpeta de la aplicación e ingresar al directorio de la aplicación:
+```
+sudo chown -R tu-usuario.tu-usuario backend_pt_afex
+sudo chmod -R 775 backend_pt_afex
+cd backend_pt_afex
+```
+Crear el archivo de variables de entorno de la aplicación:
+```
+cp .env_example .env
+nano .env
+```
+Establecer los parámetros de entorno según los valores de producción:
+```
+PGUSER='usuario_en_produccion'
+PGHOST='host_BD_produccion'
+PGPASSWORD='PASS_BD_produccion'
+PGPORT=5432   # Puerto de la base de datos en producción
+CORS_ORIGINS='Direcciones CORS separadas por comas'
+PORT=3000     # Puerto de despliegue de la aplicación
+```
+Instalar las dependencias de la aplicación en entorno de producción:
+```
+NODE_ENV=production npm install
+```
+Inicializar la base de datos en producción:
+```
+npx sequelize --env=production db:create
+npx sequelize --env=production db:migrate
+```
+
+#### Instalación de Nginx y arranque de la aplicación
+La ejecución de la aplicación de forma directa solo queda *escuchando* en la dirección *localhost*, por lo tanto es necesario utilizar __Ngnix__ para redirigir las peticiones externas hacia la aplicación en *localhost*. Para la instalación de nginx se debe utilizar los siguientes comandos:
+```
+sudo apt install nginx
+```
+Cambiar la configuración de Nginx a través del archivo de configuración de la aplicación y reiniciar el servicio con los siguientes comandos:
+```
+sudo cp ./nginx.conf /etc/nginx/conf.d/default.conf
+sudo systemctl restart nginx
+```
+Arrancar la aplicación en producción
+```
+npm run server
+```
+La aplicación se ejecuta a través del manejador de procesos *pm2*. Para conocer mayores detalles de la manipulación de la aplicación, consultar la [documentación oficial de pm2](https://www.npmjs.com/package/pm2).
+
+#### Cambiar la configuración de la ejecución de la aplicación en producción
+
+
+### Actualizar la aplicación
+
+---
+
+## Diseño
+### Modelo entidad relación
+
+### Endpoints y estructura de datos
+#### Endpoints
+
+#### Estructura de datos
