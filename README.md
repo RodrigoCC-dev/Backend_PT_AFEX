@@ -179,7 +179,7 @@ sudo systemctl restart nginx
 ### Actualizar la aplicación
 Para actualizar la aplicación a su versión más reciente se debe ingresar a la carpeta de la aplicación y ejecutar:
 ```
-cd /opt/ptis-back
+cd /opt/backend_pt_afex
 git pull
 ```
 Instalar las nuevas dependencias de la aplicación:
@@ -196,6 +196,22 @@ npx pm2 restart server
 ```
 
 ### Cambiar instalación a HTTPS
+Para poder habilitar el tráfico __http__ seguro en la aplicación, es necesario contar con el certificado *SSL* del sitio. La obtención de este certificado se puede realizar a través de [Let's Encrypt](https://letsencrypt.org/es/) y __acme.sh__. Para mayor información, consultar la [documentación oficial de acme.sh](https://github.com/acmesh-official/acme.sh). Las instrucciones presentadas a continuación, asumen que ya se cuenta con los certificados respectivos.
+
+Editar el archivo *nginx_ssl.conf* incluido en la carpeta raíz de la aplicación, señalando la ubicación de los archivos _.key_ y _.cer_ en las siguientes líneas:
+```
+ssl_certificate       /opt/server/certificates/cert_file.cer;
+ssl_certificate_key   /opt/server/certificates/key_file.key;
+```
+Reemplazar la configuración de Nginx a través del nuevo archivo de configuración de la aplicación y reiniciar el servicio con los siguientes comandos:
+```
+sudo cp ./nginx_ssl.conf /etc/nginx/conf.d/default.conf
+sudo systemctl restart nginx
+```
+Habilitar el puerto 443 en el firewall de ubuntu para conexiones __https__ con Nginx:
+```
+sudo ufw allow 443/tcp
+```
 
 ## Diseño
 ### Modelo entidad relación
