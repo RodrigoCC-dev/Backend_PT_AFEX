@@ -5,8 +5,6 @@
 * npm v9.6.7
 * PostgreSQL v12
 
----
-
 ## Instalación
 La siguiente descripción de instalación se realiza considerando un sistema local con Ubuntu 20.04. Para otras distribuciones de sistemas operativos pueden haber variaciones en los comandos indicados.
 ### nvm-sh
@@ -104,8 +102,6 @@ Desplegar la aplicación en entorno de desarrollo:
 npm run dev
 ```
 
----
-
 ## Despliegue en producción
 ### Instalación directa en el servidor
 Las siguientes instrucciones de despliegue de la aplicación son las correspondientes para un servidor con distribución Ubuntu 20.04. Para otros sistemas operativos pueden haber variaciones en los comandos indicados. Se considera que ya se cuenta con la instalación de las dependencias señaladas en el apartado __Instalación__.
@@ -163,11 +159,43 @@ npm run server
 La aplicación se ejecuta a través del manejador de procesos *pm2*. Para conocer mayores detalles de la manipulación de la aplicación, consultar la [documentación oficial de pm2](https://www.npmjs.com/package/pm2).
 
 #### Cambiar la configuración de la ejecución de la aplicación en producción
-
+El puerto utilizado por defecto por la aplicación en producción para *escuchar* las peticiones es el puerto 3000. Este valor puede ser cambiado en el archivo de variables de entorno, agregando el puerto a usar:
+```
+PORT=8080
+```
+Al cambiar este puerto, se debe corregir el archivo de configuración de *nginx* con el siguiente comando:
+```
+sudo nano /etc/nginx/conf.d/default.conf
+```
+Cambiar el puerto en la siguiente línea del archivo de configuración:
+~~~
+proxy_pass http://localhost:8080;
+~~~
+Luego, se debe reiniciar *nginx* para que considere los cambios realizados:
+```
+sudo systemctl restart nginx
+```
 
 ### Actualizar la aplicación
+Para actualizar la aplicación a su versión más reciente se debe ingresar a la carpeta de la aplicación y ejecutar:
+```
+cd /opt/ptis-back
+git pull
+```
+Instalar las nuevas dependencias de la aplicación:
+```
+NODE_ENV=production npm install
+```
+Instalar las nuevas migraciones en la base de datos. Estas nuevas migraciones deben ser instaladas según cada nuevo archivo agregado en esta actualización (se indica a continuación un ejemplo del comando a utilizar por cada archivo):
+```
+npx sequelize --env=production db:migrate --name 2022101406XXXX-nueva-migracion.js
+```
+Reiniciar la aplicación:
+```
+npx pm2 restart server
+```
 
----
+### Cambiar instalación a HTTPS
 
 ## Diseño
 ### Modelo entidad relación
