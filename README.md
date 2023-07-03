@@ -147,6 +147,14 @@ La ejecución de la aplicación de forma directa solo queda *escuchando* en la d
 ```
 sudo apt install nginx
 ```
+Editar el archivo *nginx.conf* de configuración de la aplicación:
+```
+nano nginx.conf
+```
+Ingresar el nombre del servidor y guardar los cambios:
+```
+server_name Nombre_de_tu_servidor;        # Ejemplo: www.example.com
+```
 Cambiar la configuración de Nginx a través del archivo de configuración de la aplicación y reiniciar el servicio con los siguientes comandos:
 ```
 sudo cp ./nginx.conf /etc/nginx/conf.d/default.conf
@@ -202,6 +210,12 @@ Editar el archivo *nginx_ssl.conf* incluido en la carpeta raíz de la aplicació
 ```
 ssl_certificate       /opt/server/certificates/cert_file.cer;
 ssl_certificate_key   /opt/server/certificates/key_file.key;
+```
+Completar la configuración del archivo ingresando los valores necesarios en las siguientes líneas:
+```
+return 301 'Dirección_https_de_tu_sitio';       # Ej.: https://www.example.com
+
+server_name _;                                  # Ej.: www.example.com
 ```
 Reemplazar la configuración de Nginx a través del nuevo archivo de configuración de la aplicación y reiniciar el servicio con los siguientes comandos:
 ```
